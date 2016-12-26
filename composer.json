@@ -1,0 +1,24 @@
+{
+  "name": "hansadema/jsconnect",
+  "description": "Composer version of Vanilla Forums jsConnect",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Hans Adema",
+      "email": "hans@xvhost.com"
+    },
+    {
+      "name": "Todd Burry",
+      "email": "todd@vanillaforums.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "HansAdema\\JsConnect\\": "src"
+    }
+  }
+}
