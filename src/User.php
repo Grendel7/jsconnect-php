@@ -39,9 +39,9 @@ class User
     /**
      * User constructor.
      *
-     * @param $attributes
+     * @param array $attributes
      */
-    public function __construct($attributes)
+    public function __construct($attributes = [])
     {
         foreach ($attributes as $key => $value) {
             if (property_exists($this, 'key')) {
