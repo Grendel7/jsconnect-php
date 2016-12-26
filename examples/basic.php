@@ -15,15 +15,7 @@ $user = new \HansAdema\JsConnect\User([
 ]);
 
 // Try to build the response
-try {
-    $response = $jsConnect->buildResponse($user, $_GET);
-} catch (\HansAdema\JsConnect\RequestException $e) {
-    // Build the error response
-    $response = [
-        'error' => $e->getError(),
-        'message' => $e->getMessage(),
-    ];
-}
+$response = $jsConnect->buildResponse($user, $_GET);
 
 // Return the JSONP result
 echo $_GET['callback'].'('.json_encode($response).')';

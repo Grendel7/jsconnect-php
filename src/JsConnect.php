@@ -60,7 +60,6 @@ class JsConnect
      * @param array $request The GET request data, defaults to $_GET
      *
      * @return array The JSONP data
-     * @throws RequestException If the input data is invalid, an exception is thrown which should be returned as JSONP
      */
     public function buildResponse(User $user, $request = null)
     {
@@ -70,20 +69,20 @@ class JsConnect
 
         if ($this->options['check_security']) {
             if (!isset($request['client_id'])) {
-                throw new RequestException('invalid_request', 'The client_id parameter is missing.');
+                return ['error' => 'invalid_request', 'message' => 'The client_id parameter is missing.'];
             } elseif ($request['client_id'] != $this->clientId) {
-                throw new RequestException('invalid_client', "Unknown client {$request['client_id']}.");
+                return ['error' => 'invalid_client', 'message' => "Unknown client {$request['client_id']}."];
             } elseif (!isset($request['timestamp']) && !isset($request['signature'])) {
                 // This isn't really an error, but we are just going to return public information when no signature is sent.
                 return $user->getResponseData();
             } elseif (!isset($request['timestamp']) || !is_numeric($request['timestamp'])) {
-                throw new RequestException('invalid_request', 'The timestamp parameter is missing or invalid.');
+                return ['error' => 'invalid_request', 'message' => 'The timestamp parameter is missing or invalid.'];
             } elseif (!isset($request['signature'])) {
-                throw new RequestException('invalid_request', 'Missing  signature parameter.');
+                return ['error' => 'invalid_request', 'message' => 'Missing  signature parameter.'];
             } elseif (abs($request['timestamp'] - $this->timestamp()) > $this->options['timeout']) {
-                throw new RequestException('invalid_request', 'The timestamp is invalid.');
+                return ['error' => 'invalid_request', 'message' => 'The timestamp is invalid.'];
             } elseif ($this->hash($request['timestamp']) != $request['signature']) {
-                throw new RequestException('access_denied', 'Signature invalid.');
+                return ['error' => 'invalid_request', 'message' => 'Signature invalid.'];
             }
         }
 
