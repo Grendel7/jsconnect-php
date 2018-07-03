@@ -44,7 +44,7 @@ class User
     public function __construct($attributes = [])
     {
         foreach ($attributes as $key => $value) {
-            if (property_exists($this, 'key')) {
+            if (property_exists($this, $key)) {
                 $this->$key = $value;
             }
         }
